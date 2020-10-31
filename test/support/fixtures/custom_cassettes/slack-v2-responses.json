@@ -22,31 +22,99 @@
         "content-type": "application/json; charset=utf-8",
         "X-via": "haproxy-www-lo72,haproxy-edge-pdx-d6lr"
       },
-      "body": "{\"access_token\":\"xoxb-594092027284-1416997157441-OuEZHfnFfupvVAH2zKxkIjsR\",\"app_id\":\"A01BP6M5QUW\",\"authed_user\":{\"id\":\"UHHGGFNVC\"},\"bot_user_id\":\"U01C8VB4MCZ\",\"enterprise\":null,\"ok\":true,\"scope\":\"dnd:read,users:read\",\"team\":{\"id\":\"THG2Q0T8C\",\"name\":\"Headsabc\"},\"token_type\":\"bot\"}"
-    }
-  },
-  {
-    "request": {
-      "url": "https://slack.com/api/auth.test?token=xoxb-594092027284-1416997157441-OuEZHfnFfupvVAH2zKxkIjsR"
-    },
-    "response": {
-      "status_code": 200,
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "body": "{\"bot_id\":\"B0111111111\",\"ok\":true,\"team\":\"aaaaaaaaa\",\"team_id\":\"THG222222\",\"url\":\"https://app.slack.com/\",\"user\":\"aaaaaaaaaa\",\"user_id\":\"U01C8111111\"}"
-    }
-  },
-  {
-    "request": {
-      "url": "https://slack.com/api/users.info?user=U01C8111111&token=xoxb-594092027284-1416997157441-OuEZHfnFfupvVAH2zKxkIjsR"
-    },
-    "response": {
-      "status_code": 200,
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "body": "{\"ok\":true,\"user\":{\"color\":\"4bbe2e\",\"deleted\":false,\"id\":\"U01C8Vl11CZ\",\"is_admin\":false,\"is_app_user\":false,\"is_bot\":true,\"is_owner\":false,\"is_primary_owner\":false,\"is_restricted\":false,\"is_ultra_restricted\":false,\"name\":\"heads_abc\",\"profile\":{\"always_active\":false,\"api_app_id\":\"A01BP6M5QUW\",\"avatar_hash\":\"54ba26432cb2\",\"bot_id\":\"B01BW111111\",\"display_name\":\"\",\"display_name_normalized\":\"\",\"fields\":null,\"first_name\":\"Heads\",\"image_1024\":\"https://avatars.slack-edge.com/2020-10-15/1417909520471_54ba26432cb252382a25_1024.png\",\"image_192\":\"https://avatars.slack-edge.com/2020-10-15/1417909520471_542a26432cb251382a25_192.png\",\"image_24\":\"https://avatars.slack-edge.com/2020-10-15/1417902520471_54ba26432cb251382a25_24.png\",\"image_32\":\"https://avatars.slack-edge.com/2020-10-15/1417929520471_542a26432cb251382a25_32.png\",\"image_48\":\"https://avatars.slack-edge.com/2020-10-15/1417909520471_54ba26432cb252382a25_48.png\",\"image_512\":\"https://avatars.slack-edge.com/2020-10-15/1417909520471_54b226432cb251382a25_512.png\",\"image_72\":\"https://avatars.slack-edge.com/2020-10-15/1417909520471_54ba26432cb251322a25_72.png\",\"image_original\":\"https://avatars.slack-edge.com/2020-10-15/1417909520471_54ba26432cb252382a25_original.png\",\"is_custom_image\":true,\"last_name\":\"abc\",\"phone\":\"\",\"real_name\":\"Heads abc\",\"real_name_normalized\":\"Heads abc\",\"skype\":\"\",\"status_emoji\":\"\",\"status_expiration\":0,\"status_text\":\"\",\"status_text_canonical\":\"\",\"team\":\"THG2Q0T8C\",\"title\":\"\"},\"real_name\":\"Heads abc\",\"team_id\":\"THG2Q0T8C\",\"tz\":\"America/Los_Angeles\",\"tz_label\":\"Pacific Daylight Time\",\"tz_offset\":-25200,\"updated\":1602822523}}"
-    }
+      "body": "{
+        \"ok\": true,
+        \"access_token\": \"xoxb-17653672481-19874698323-pdFZKVeTuE8sk7oOcBrzbqgy\",
+        \"token_type\": \"bot\",
+        \"scope\": \"commands,incoming-webhook\",
+        \"bot_user_id\": \"U0KRQLJ9H\",
+        \"app_id\": \"A0KRD7HC3\",
+        \"team\": {
+          \"name\": \"Slack Softball Team\",
+          \"id\": \"T9TK3CUKW\"
+        },
+        \"enterprise\": {
+          \"name\": \"slack-sports\",
+          \"id\": \"E12345678\"
+        },
+        \"authed_user\": {
+          \"id\": \"U1234\",
+          \"scope\": \"chat:write\",
+          \"access_token\": \"xoxp-1234\",
+          \"token_type\": \"user\"
+        }
+    }"
   }
+},
+{
+  "request": {
+    "url": "https://slack.com/api/auth.test?token=xoxb-17653672481-19874698323-pdFZKVeTuE8sk7oOcBrzbqgy"
+  },
+  "response": {
+    "status_code": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": "{
+      \"ok\": true,
+      \"url\": \"https://subarachnoid.slack.com/\",
+      \"team\": \"Subarachnoid Workspace\",
+      \"user\": \"grace\",
+      \"team_id\": \"T12345678\",
+      \"user_id\": \"W12345678\"
+    }"
+  }
+},
+{
+  "request": {
+    "url": "https://slack.com/api/users.info?user=U01C8111111&token=xoxb-594092027284-1416997157441-OuEZHfnFfupvVAH2zKxkIjsR"
+  },
+  "response": {
+    "status_code": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": "{
+      \"ok\": true,
+      \"user\": {
+        \"id\": \"W012A3CDE\",
+        \"team_id\": \"T012AB3C4\",
+        \"name\": \"spengler\",
+        \"deleted\": false,
+        \"color\": \"9f69e7\",
+        \"real_name\": \"Egon Spengler\",
+        \"tz\": \"America/Los_Angeles\",
+        \"tz_label\": \"Pacific Daylight Time\",
+        \"tz_offset\": -25200,
+        \"profile\": {
+          \"avatar_hash\": \"ge3b51ca72de\",
+          \"status_text\": \"Print is dead\",
+          \"status_emoji\": \":books:\",
+          \"real_name\": \"Egon Spengler\",
+          \"display_name\": \"spengler\",
+          \"real_name_normalized\": \"Egon Spengler\",
+          \"display_name_normalized\": \"spengler\",
+          \"email\": \"spengler@ghostbusters.example.com\",
+          \"image_original\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
+          \"image_24\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
+          \"image_32\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
+          \"image_48\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
+          \"image_72\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
+          \"image_192\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
+          \"image_512\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
+          \"team\": \"T012AB3C4\"
+        },
+        \"is_admin\": true,
+        \"is_owner\": false,
+        \"is_primary_owner\": false,
+        \"is_restricted\": false,
+        \"is_ultra_restricted\": false,
+        \"is_bot\": false,
+        \"updated\": 1502138686,
+        \"is_app_user\": false,
+        \"has_2fa\": false
+      }
+    }"
+  }
+}
 ]
