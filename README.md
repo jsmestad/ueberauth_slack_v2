@@ -1,6 +1,6 @@
-# Überauth Slack
+# Überauth Slack V2
 
-> Slack OAuth2 strategy for Überauth.
+> Slack V2 OAuth2 strategy for Überauth.
 
 ## Installation
 
