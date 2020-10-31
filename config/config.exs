@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :ueberauth_slack, key: :value
+#     config :ueberauth_slack_v2, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:ueberauth_slack, :key)
+#     Application.get_env(:ueberauth_slack_v2, :key)
 #
 # Or configure a 3rd-party app:
 #

@@ -1,6 +1,6 @@
 defmodule UeberauthSlackTest do
   use ExUnit.Case
-  doctest UeberauthSlack
+  doctest UeberauthSlackV2
 
   test "the truth" do
     assert 1 + 1 == 2

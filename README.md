@@ -10,15 +10,7 @@
 
     ```elixir
     def deps do
-      [{:ueberauth_slack, "~> 0.6"}]
-    end
-    ```
-
-1. Add the strategy to your applications:
-
-    ```elixir
-    def application do
-      [applications: [:ueberauth_slack]]
+      [{:ueberauth_slack_v2, "~> 1.0"}]
     end
     ```
 
@@ -27,7 +19,7 @@
     ```elixir
     config :ueberauth, Ueberauth,
       providers: [
-        slack: {Ueberauth.Strategy.Slack, []}
+        slack: {Ueberauth.Strategy.Slack.V2, []}
       ]
     ```
 
@@ -36,14 +28,14 @@
     ```elixir
     config :ueberauth, Ueberauth,
       providers: [
-        slack: {Ueberauth.Strategy.Slack, [team: "0ABCDEF"]}
+        slack: {Ueberauth.Strategy.Slack.V2, [team: "0ABCDEF"]}
       ]
     ```
 
 1.  Update your provider configuration:
 
     ```elixir
-    config :ueberauth, Ueberauth.Strategy.Slack.OAuth,
+    config :ueberauth, Ueberauth.Strategy.Slack.V2.OAuth,
       client_id: System.get_env("SLACK_CLIENT_ID"),
       client_secret: System.get_env("SLACK_CLIENT_SECRET")
     ```
@@ -81,14 +73,14 @@ Depending on the configured url you can initiate the request through:
 
 Or with options:
 
-    /auth/slack?scope=users:read
+    /auth/slack?scope=users:read&user_scope=dnd:write
 
 By default the requested scope is "users:read". Scope can be configured either explicitly as a `scope` query value on the request path or in your configuration:
 
 ```elixir
 config :ueberauth, Ueberauth,
   providers: [
-    slack: {Ueberauth.Strategy.Slack, [default_scope: "users:read,users:write"]}
+    slack: {Ueberauth.Strategy.Slack.V2, [default_scope: "users:read,users:write", default_user_scope: "dnd:write"]}
   ]
 ```
 

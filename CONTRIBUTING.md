@@ -1,4 +1,4 @@
-# Contributing to Ueberauth Slack
+# Contributing to Ueberauth Slack V2
 
 ## Pull Requests Welcome
 1. Fork ueberauth_slack

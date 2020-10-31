@@ -1,4 +1,4 @@
-defmodule Ueberauth.Strategy.Slack.OAuth do
+defmodule Ueberauth.Strategy.Slack.V2.OAuth do
   @moduledoc false
   use OAuth2.Strategy
 
@@ -10,7 +10,7 @@ defmodule Ueberauth.Strategy.Slack.OAuth do
   ]
 
   def client(opts \\ []) do
-    slack_config = Application.get_env(:ueberauth, Ueberauth.Strategy.Slack.OAuth)
+    slack_config = Application.get_env(:ueberauth, Ueberauth.Strategy.Slack.V2.OAuth)
 
     client_opts =
       @defaults

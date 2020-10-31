@@ -1,4 +1,4 @@
-defmodule Ueberauth.Strategy.Slack do
+defmodule Ueberauth.Strategy.Slack.V2 do
   @moduledoc """
   Implements an ÜeberauthSlack strategy for authentication with slack.com.
 
