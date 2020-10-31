@@ -70,17 +70,29 @@ defmodule Ueberauth.Strategy.SlackV2 do
 
     token = apply(module, :get_token!, [params, options])
 
-    if token.access_token == nil do
-      set_errors!(conn, [
-        error(token.other_params["error"], token.other_params["error_description"])
-      ])
-    else
-      conn
-      |> store_token(token)
-      |> fetch_auth(token)
-      |> fetch_identity(token)
-      |> fetch_user(token)
-      |> fetch_team(token)
+
+    case token do
+      %{access_token: nil, other_params: %{"authed_user" => %{"access_token" => access_token}}} ->
+        token =
+          token
+          |> put_in([Access.key(:other_params), "scope"], token.other_params["authed_user"]["scope"])
+          |> Map.put(:access_token, access_token)
+          |> Map.put(:token_type, token.other_params["authed_user"]["token_type"])
+
+        conn
+        |> store_token(token)
+        |> fetch_identity(token)
+
+      %{access_token: nil} ->
+        set_errors!(conn, [error(token.other_params["error"], token.other_params["error_description"])])
+
+      token ->
+        conn
+        |> store_token(token)
+        |> fetch_auth(token)
+        |> fetch_identity(token)
+        |> fetch_user(token)
+        |> fetch_team(token)
     end
   end
 
