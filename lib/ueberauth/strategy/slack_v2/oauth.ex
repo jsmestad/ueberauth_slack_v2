@@ -1,16 +1,26 @@
 defmodule Ueberauth.Strategy.SlackV2.OAuth do
-  @moduledoc false
+  @moduledoc """
+  An implementation of OAuth2 for Slack OAuth V2 API.
+  To add your `client_id` and `client_secret` include these values in your configuration.
+      config :ueberauth, Ueberauth.Strategy.SlackV2.OAuth,
+        client_id: System.get_env("SLACK_CLIENT_ID"),
+        client_secret: System.get_env("SLACK_CLIENT_SECRET")
+ The JSON serializer used is the same as `Ueberauth` so if you need to
+  customize it, you can configure it in the `Ueberauth` configuration:
+      config :ueberauth, Ueberauth,
+        json_library: Poison # Defaults to Jason
+  """
   use OAuth2.Strategy
 
   @defaults [
     strategy: __MODULE__,
     site: "https://slack.com/api",
-    authorize_url: "https://slack.com/oauth/authorize",
-    token_url: "https://slack.com/api/oauth.access"
+    authorize_url: "https://slack.com/oauth/v2/authorize",
+    token_url: "https://slack.com/api/oauth.v2.access"
   ]
 
   def client(opts \\ []) do
-    slack_config = Application.get_env(:ueberauth, Ueberauth.Strategy.Slack.V2.OAuth)
+    slack_config = Application.get_env(:ueberauth, Ueberauth.Strategy.SlackV2.OAuth)
 
     client_opts =
       @defaults

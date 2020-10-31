@@ -1,25 +1,26 @@
 defmodule Ueberauth.Strategy.SlackV2 do
   @moduledoc """
-  Implements an ÜeberauthSlack strategy for authentication with slack.com.
+  Implements an ÜeberauthSlack strategy for authentication with Slack V2 OAuth API.
 
   When configuring the strategy in the Üeberauth providers, you can specify some defaults.
 
   * `uid_field` - The field to use as the UID field. This can be any populated field in the info struct. Default `:email`
   * `default_scope` - The scope to request by default from slack (permissions). Default "users:read"
-  * `oauth2_module` - The OAuth2 module to use. Default Ueberauth.Strategy.Slack.OAuth
+  * `default_users_scope` - The scope to request by default from slack (permissions). Default "users:read"
+  * `oauth2_module` - The OAuth2 module to use. Default Ueberauth.Strategy.SlackV2.OAuth
 
   ```elixir
 
   config :ueberauth, Ueberauth,
     providers: [
-      slack: { Ueberauth.Strategy.Slack, [uid_field: :nickname, default_scope: "users:read,users:write"] }
+      slack: { Ueberauth.Strategy.SlackV2, [uid_field: :nickname, default_scope: "users:read,users:write"] }
     ]
   ```
   """
   use Ueberauth.Strategy,
     uid_field: :email,
     default_scope: "users:read",
-    oauth2_module: Ueberauth.Strategy.Slack.OAuth
+    oauth2_module: Ueberauth.Strategy.SlackV2.OAuth
 
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Credentials
@@ -29,7 +30,8 @@ defmodule Ueberauth.Strategy.SlackV2 do
   @doc false
   def handle_request!(conn) do
     scopes = conn.params["scope"] || option(conn, :default_scope)
-    opts = [scope: scopes]
+    user_scopes = conn.params["user_scope"] || option(conn, :default_user_scope)
+    opts = [scope: scopes, user_scopes: user_scopes]
 
     opts =
       if conn.params["state"], do: Keyword.put(opts, :state, conn.params["state"]), else: opts
@@ -159,7 +161,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
     team_image_urls =
       (identity || %{})
       |> Map.get("team", %{})
-      |> Enum.filter(fn {key, value} -> key =~ ~r/^image_/ end)
+      |> Enum.filter(fn {key, _value} -> key =~ ~r/^image_/ end)
       |> Enum.into(%{}, fn {key, value} -> {"team_#{key}", value} end)
 
     %Info{
@@ -207,7 +209,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
     scope_string = token.other_params["scope"] || ""
     scopes = String.split(scope_string, ",")
 
-    case Ueberauth.Strategy.Slack.OAuth.get(token, "/auth.test") do
+    case Ueberauth.Strategy.SlackV2.OAuth.get(token, "/auth.test") do
       {:ok, %OAuth2.Response{status_code: 401, body: _body}} ->
         set_errors!(conn, [error("token", "unauthorized")])
 
@@ -243,7 +245,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
         conn
 
       true ->
-        case Ueberauth.Strategy.Slack.OAuth.get(token, "/users.identity") do
+        case Ueberauth.Strategy.SlackV2.OAuth.get(token, "/users.identity") do
           {:ok, %OAuth2.Response{status_code: 401, body: _body}} ->
             set_errors!(conn, [error("token", "unauthorized")])
 
@@ -277,7 +279,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
       true ->
         auth = conn.private.slack_auth
 
-        case Ueberauth.Strategy.Slack.OAuth.get(token, "/users.info", %{user: auth["user_id"]}) do
+        case Ueberauth.Strategy.SlackV2.OAuth.get(token, "/users.info", %{user: auth["user_id"]}) do
           {:ok, %OAuth2.Response{status_code: 401, body: _body}} ->
             set_errors!(conn, [error("token", "unauthorized")])
 
@@ -306,7 +308,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
         conn
 
       true ->
-        case Ueberauth.Strategy.Slack.OAuth.get(token, "/team.info") do
+        case Ueberauth.Strategy.SlackV2.OAuth.get(token, "/team.info") do
           {:ok, %OAuth2.Response{status_code: 401, body: _body}} ->
             set_errors!(conn, [error("token", "unauthorized")])
 

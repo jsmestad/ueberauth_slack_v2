@@ -1,8 +1,4 @@
 defmodule UeberauthSlackTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   doctest UeberauthSlackV2
-
-  test "the truth" do
-    assert 1 + 1 == 2
-  end
 end
