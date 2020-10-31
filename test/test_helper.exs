@@ -14,9 +14,9 @@ defmodule SpecRouter do
   plug(:match)
   plug(:dispatch)
 
-  get("/auth/slackv2", do: send_resp(conn, 200, "slack request"))
+  get("/auth/slack", do: send_resp(conn, 200, "slack request"))
 
-  get("/auth/slackv2/callback", do: send_resp(conn, 200, "slack callback"))
+  get("/auth/slack/callback", do: send_resp(conn, 200, "slack callback"))
 end
 
 ExUnit.start()

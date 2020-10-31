@@ -3,7 +3,7 @@ use Mix.Config
 config :ueberauth, Ueberauth,
   json_library: Jason,
   providers: [
-    auth0: {Ueberauth.Strategy.SlackV2, []}
+    slack: {Ueberauth.Strategy.SlackV2, []}
   ]
 
 config :ueberauth, Ueberauth.Strategy.SlackV2.OAuth,

@@ -1,7 +1,7 @@
 defmodule Ueberauth.Strategy.SlackV2.OAuthTest do
   use ExUnit.Case, async: true
 
-  import Ueberauth.Strategy.SlackV2.OAuth, only: [client: 0, client: 1]
+  import Ueberauth.Strategy.SlackV2.OAuth, only: [client: 0]
 
   setup do
     {:ok, %{client: client()}}
@@ -16,11 +16,4 @@ defmodule Ueberauth.Strategy.SlackV2.OAuthTest do
     assert client.token_url == "https://slack.com/api/oauth.v2.access"
     assert client.site == "https://slack.com/api"
   end
-
-  # test "raises when there is no configuration" do
-  #   assert_raise(RuntimeError, ~r/^Expected to find settings under.*/, fn ->
-  #     client(otp_app: :unknown_slack_v2_otp_app)
-  #   end)
-  # end
-
 end
