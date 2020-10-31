@@ -1,4 +1,4 @@
-defmodule Ueberauth.Strategy.Slack.V2.OAuth do
+defmodule Ueberauth.Strategy.SlackV2.OAuth do
   @moduledoc false
   use OAuth2.Strategy
 
