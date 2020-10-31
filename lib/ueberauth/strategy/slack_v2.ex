@@ -70,7 +70,6 @@ defmodule Ueberauth.Strategy.SlackV2 do
 
     token = apply(module, :get_token!, [params, options])
 
-
     case token do
       %{access_token: nil, other_params: %{"authed_user" => %{"access_token" => access_token}}} ->
         token =

@@ -1,11 +1,20 @@
 defmodule Ueberauth.Strategy.SlackV2Test do
   use ExUnit.Case, async: true
   use Plug.Test
+  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
 
-  import Plug.Conn
+  @router SpecRouter.init([])
 
   doctest Ueberauth.Strategy.SlackV2
 
+  setup do
+    ExVCR.Config.cassette_library_dir(
+      "test/support/fixtures/vcr_cassettes",
+      "test/support/fixtures/custom_cassettes"
+    )
+
+    :ok
+  end
 
   test "simple request phase" do
     {:ok, response_basic} =
@@ -36,5 +45,23 @@ defmodule Ueberauth.Strategy.SlackV2Test do
       |> SpecRouter.call(@router)
 
     assert conn.resp_body == response_advanced
+  end
+
+  test "default callback phase" do
+    query = %{code: "code_abc"} |> URI.encode_query()
+
+    use_cassette "slack-v2-responses", custom: true do
+      conn =
+        :get
+        |> conn("/auth/slack/callback?#{query}")
+        |> SpecRouter.call(@router)
+
+      assert conn.resp_body == "slack callback"
+
+      auth = conn.assigns.ueberauth_auth
+
+      assert auth.provider == :slack
+      assert auth.strategy == Ueberauth.Strategy.SlackV2
+    end
   end
 end

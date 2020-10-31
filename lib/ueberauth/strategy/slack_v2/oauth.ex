@@ -5,7 +5,7 @@ defmodule Ueberauth.Strategy.SlackV2.OAuth do
       config :ueberauth, Ueberauth.Strategy.SlackV2.OAuth,
         client_id: System.get_env("SLACK_CLIENT_ID"),
         client_secret: System.get_env("SLACK_CLIENT_SECRET")
- The JSON serializer used is the same as `Ueberauth` so if you need to
+  The JSON serializer used is the same as `Ueberauth` so if you need to
   customize it, you can configure it in the `Ueberauth` configuration:
       config :ueberauth, Ueberauth,
         json_library: Poison # Defaults to Jason
