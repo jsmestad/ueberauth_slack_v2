@@ -9,12 +9,12 @@ defmodule UeberauthSlackV2.Mixfile do
       version: @version,
       name: "Ueberauth Slack V2",
       package: package(),
-      elixir: "~> 1.4",
-      build_embedded: Mix.env() == :prod,
+      elixir: "~> 1.7",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
-      source_url: "https://github.com/hassox/ueberauth_slack",
-      homepage_url: "https://github.com/hassox/ueberauth_slack",
-      description: description(),
+      source_url: "https://github.com/jsmestad/ueberauth_slack_v2",
+      homepage_url: "https://github.com/jsmestad/ueberauth_slack_v2",
+      description: "An Ueberauth strategy for using Slack OAuth V2 to authenticate your users",
       deps: deps(),
       docs: docs()
     ]
@@ -33,24 +33,32 @@ defmodule UeberauthSlackV2.Mixfile do
       # dev/test dependencies
       {:credo, "~> 1.5", only: [:dev, :test]},
       {:earmark, ">= 0.0.0", only: :dev},
-      {:ex_doc, "~> 0.19", only: :dev}
+      {:ex_doc, "~> 0.21", only: :dev}
     ]
   end
 
   defp docs do
-    [extras: ["README.md", "CONTRIBUTING.md"]]
+    [
+      source_ref: "v#{@version}",
+      main: "README",
+      canonical: "http://hexdocs.pm/ueberauth_slack_v2",
+      source_url: "https://github.com/jsmestad/ueberauth_slack_v2",
+      extras: [
+        "README.md": [filename: "README"],
+        "CHANGELOG.md": [filename: "CHANGELOG"]
+      ]
+    ]
   end
 
-  defp description do
-    "An Ueberauth strategy for using Slack to authenticate your users"
-  end
+  defp elixirc_paths(:test), do: ["lib", "test"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp package do
     [
-      files: ["lib", "mix.exs", "README.md"],
-      maintainers: ["Justin Smestad", "Daniel Neighman"],
+      files: ~w(lib LICENSE mix.exs README.md),
+      maintainers: ["Justin Smestad"],
       licenses: ["MIT"],
-      links: %{GitHub: "https://github.com/jsmestad/ueberauth_slack_v2"}
+      links: %{github: "https://github.com/jsmestad/ueberauth_slack_v2"}
     ]
   end
 end
