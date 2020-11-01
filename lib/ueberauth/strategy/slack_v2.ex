@@ -75,7 +75,6 @@ defmodule Ueberauth.Strategy.SlackV2 do
     case user_token do
       # TODO likely this is not needed now that we have two tokens
       # %{access_token: _, other_params: %{"authed_user" => %{"access_token" => access_token}}} ->
-      #   IO.inspect(token)
 
       #   token =
       #     token
