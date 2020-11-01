@@ -6,21 +6,7 @@
     "response": {
       "status_code": 200,
       "headers": {
-        "Date": "Sat, 31 Oct 2020 21:35:02 GMT",
-        "Server": "Apache",
-        "Access-control-expose-headers": "x-slack-req-id, retry-after",
-        "Access-control-allow-headers": "slack-route, x-slack-version-ts, x-b3-traceid, x-b3-spanid, x-b3-parentspanid, x-b3-sampled, x-b3-flags",
-        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-        "access-control-allow-origin": "*",
-        "X-slack-backend": "r",
-        "X-xss-protection": "0",
-        "X-slack-req-id": "9e565e212c82029c1dd1b904c0fee1ba",
-        "vary": "Accept-Encoding",
-        "X-content-type-options": "nosniff",
-        "referrer-policy": "no-referrer",
-        "transfer-encoding": "chunked",
-        "content-type": "application/json; charset=utf-8",
-        "X-via": "haproxy-www-lo72,haproxy-edge-pdx-d6lr"
+        "content-type": "application/json; charset=utf-8"
       },
       "body": "{
         \"ok\": true,
@@ -48,7 +34,7 @@
 },
 {
   "request": {
-    "url": "https://slack.com/api/auth.test?token=xoxb-17653672481-19874698323-pdFZKVeTuE8sk7oOcBrzbqgy"
+    "url": "https://slack.com/api/auth.test?token=xoxp-1234"
   },
   "response": {
     "status_code": 200,

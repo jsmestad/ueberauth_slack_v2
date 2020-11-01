@@ -20,6 +20,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
   use Ueberauth.Strategy,
     uid_field: :email,
     default_scope: "users:read",
+    default_user_scope: "",
     oauth2_module: Ueberauth.Strategy.SlackV2.OAuth
 
   alias Ueberauth.Auth.Info
@@ -31,7 +32,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
   def handle_request!(conn) do
     scopes = conn.params["scope"] || option(conn, :default_scope)
     user_scopes = conn.params["user_scope"] || option(conn, :default_user_scope)
-    opts = [scope: scopes, user_scopes: user_scopes]
+    opts = [scope: scopes, user_scope: user_scopes]
 
     opts =
       if conn.params["state"], do: Keyword.put(opts, :state, conn.params["state"]), else: opts
@@ -68,32 +69,50 @@ defmodule Ueberauth.Strategy.SlackV2 do
       ]
     }
 
-    token = apply(module, :get_token!, [params, options])
+    # TODO support bot token
+    {_bot_token, user_token} = apply(module, :get_token!, [params, options])
 
-    case token do
-      %{access_token: nil, other_params: %{"authed_user" => %{"access_token" => access_token}}} ->
-        token =
-          token
-          |> put_in([Access.key(:other_params), "scope"], token.other_params["authed_user"]["scope"])
-          |> Map.put(:access_token, access_token)
-          |> Map.put(:token_type, token.other_params["authed_user"]["token_type"])
+    case user_token do
+      # TODO likely this is not needed now that we have two tokens
+      # %{access_token: _, other_params: %{"authed_user" => %{"access_token" => access_token}}} ->
+      #   IO.inspect(token)
 
-        conn
-        |> store_token(token)
-        |> fetch_identity(token)
+      #   token =
+      #     token
+      #     |> put_in([Access.key(:other_params), "scope"], token.other_params["authed_user"]["scope"])
+      #     |> Map.put(:access_token, access_token)
+      #     |> Map.put(:token_type, token.other_params["authed_user"]["token_type"])
+      #     |> Map.put(:scope, token.other_params["authed_user"]["scope"])
+      #     |> Map.put(:id, token.other_params["authed_user"]["id"])
+
+      #   conn
+      #   |> store_token(token)
+      #   |> fetch_identity(token)
 
       %{access_token: nil} ->
-        set_errors!(conn, [error(token.other_params["error"], token.other_params["error_description"])])
+        set_errors!(conn, [error(user_token.other_params["error"], user_token.other_params["error_description"])])
 
-      token ->
+      user_token ->
+        # TODO what perms are required for this to work
+        # TODO what should a bot token do?
         conn
-        |> store_token(token)
-        |> fetch_auth(token)
-        |> fetch_identity(token)
-        |> fetch_user(token)
-        |> fetch_team(token)
+        |> store_token(user_token)
+        |> fetch_auth(user_token)
+        |> fetch_identity(user_token)
+        |> fetch_user(user_token)
+        |> fetch_team(user_token)
     end
   end
+
+  # defp translate_v2_payload(token) do
+  #   %{"authed_user" => user} = token
+  #   token
+  #   |> Map.replace(:access_token, user["access_token"])
+  #   |> Map.replace(:id, user["id"])
+  #   |> Map.replace(:scope, user["scope"])
+  #   |> Map.replace(:token_type, user["token_type"])
+  #   |> Map.delete(:bot_user_id)
+  # end
 
   # If we don't match code, then we have an issue
   @doc false

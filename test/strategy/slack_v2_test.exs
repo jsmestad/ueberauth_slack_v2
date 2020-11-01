@@ -27,7 +27,7 @@ defmodule Ueberauth.Strategy.SlackV2Test do
       |> conn("/auth/slack")
       |> SpecRouter.call(@router)
 
-    assert conn.resp_body == response_basic
+    assert conn.resp_body == String.trim(response_basic)
   end
 
   test "advanced request phase" do
@@ -44,7 +44,7 @@ defmodule Ueberauth.Strategy.SlackV2Test do
       )
       |> SpecRouter.call(@router)
 
-    assert conn.resp_body == response_advanced
+    assert conn.resp_body == String.trim(response_advanced)
   end
 
   test "default callback phase" do
