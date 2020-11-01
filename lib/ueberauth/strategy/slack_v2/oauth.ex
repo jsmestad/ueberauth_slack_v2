@@ -52,7 +52,7 @@ defmodule Ueberauth.Strategy.SlackV2.OAuth do
   @doc """
   Returns two tokens from Slack API, a "bot token" and a "user token"
   """
-  @spec get_token!(list(), map()) :: {%OAuth2.AccessToken{}, %OAuth2.AccessToken{}}
+  @spec get_token!(list(), map()) :: {%OAuth2.AccessToken{} | nil, %OAuth2.AccessToken{} | nil}
   def get_token!(params \\ [], options \\ %{}) do
     headers = Map.get(options, :headers, [])
     options = Map.get(options, :options, [])
@@ -63,9 +63,11 @@ defmodule Ueberauth.Strategy.SlackV2.OAuth do
     split_token(client.token)
   end
 
+  defp split_token(nil), do: {nil, nil}
   defp split_token(token) do
     {token, OAuth2.AccessToken.new(token.other_params["authed_user"])}
   end
+
 
   # Strategy Callbacks
 
