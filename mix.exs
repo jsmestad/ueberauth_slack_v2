@@ -26,7 +26,7 @@ defmodule UeberauthSlackV2.Mixfile do
 
   defp deps do
     [
-      {:oauth2, "~> 1.0 or ~> 2.0"},
+      {:oauth2, "~> 1.0 or ~> 2.0", git: "https://github.com/Deconstrained/oauth2.git", ref: "ef6b2f598cc8ce71da622a2de9e7eeb89bcf1d39"},
       {:ueberauth, "~> 0.6"},
       {:jason, "~> 1.0"},
 
