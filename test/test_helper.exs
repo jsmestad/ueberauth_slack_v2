@@ -19,4 +19,13 @@ defmodule SpecRouter do
   get("/auth/slack/callback", do: send_resp(conn, 200, "slack callback"))
 end
 
+defmodule FixtureHelper do
+  def read(file) do
+    "test/support/fixtures/#{file}.json"
+    |> Path.expand()
+    |> File.read!()
+    |> Jason.decode!()
+  end
+end
+
 ExUnit.start()

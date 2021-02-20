@@ -69,10 +69,33 @@ defmodule Ueberauth.Strategy.SlackV2 do
       ]
     }
 
-    # TODO support bot token
-    {_bot_token, user_token} = apply(module, :get_token!, [params, options])
+    # # TODO support bot token
+    # {_bot_token, user_token} =  |> IO.inspect()
 
-    case user_token do
+    case apply(module, :get_token!, [params, options]) do
+      %{token_type: "bot"} = bot_token ->
+        bot_scopes = String.split(bot_token.other_params["scope"], ",")
+
+        if Enum.member?(bot_scopes, "users:read") do
+        else
+          user_token = bot_token.other_params["authed_user"]
+
+          conn
+          |> store_token(user_token)
+          |> fetch_auth(user_token)
+          # |> fetch_identity(user_token)
+          |> fetch_user(user_token)
+          |> fetch_team(user_token)
+        end
+
+      %{token_type: "user"} = user_token ->
+        conn
+        |> store_token(user_token)
+        |> fetch_auth(user_token)
+        # |> fetch_identity(user_token)
+        |> fetch_user(user_token)
+        |> fetch_team(user_token)
+
       # TODO likely this is not needed now that we have two tokens
       # %{access_token: _, other_params: %{"authed_user" => %{"access_token" => access_token}}} ->
 
@@ -88,18 +111,10 @@ defmodule Ueberauth.Strategy.SlackV2 do
       #   |> store_token(token)
       #   |> fetch_identity(token)
 
-      %{access_token: nil} ->
-        set_errors!(conn, [error(user_token.other_params["error"], user_token.other_params["error_description"])])
-
-      user_token ->
-        # TODO what perms are required for this to work
-        # TODO what should a bot token do?
-        conn
-        |> store_token(user_token)
-        |> fetch_auth(user_token)
-        |> fetch_identity(user_token)
-        |> fetch_user(user_token)
-        |> fetch_team(user_token)
+      %{access_token: nil} = user_token ->
+        set_errors!(conn, [
+          error(user_token.other_params["error"], user_token.other_params["error_description"])
+        ])
     end
   end
 

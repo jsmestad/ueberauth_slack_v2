@@ -1,7 +1,7 @@
 defmodule UeberauthSlackV2.Mixfile do
   use Mix.Project
 
-  @version "1.0.1"
+  @version "1.0.2"
 
   def project do
     [
@@ -34,7 +34,8 @@ defmodule UeberauthSlackV2.Mixfile do
       {:credo, "~> 1.5", only: [:dev, :test]},
       {:earmark, "~> 1.3", only: :dev},
       {:ex_doc, "~> 0.21", only: :dev},
-      {:exvcr, "~> 0.11", only: :test}
+      {:exvcr, "~> 0.11", only: :test},
+      {:bypass, "~> 2.1", only: :test}
     ]
   end
 

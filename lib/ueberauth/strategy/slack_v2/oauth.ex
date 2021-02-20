@@ -59,15 +59,16 @@ defmodule Ueberauth.Strategy.SlackV2.OAuth do
     client_options = Keyword.get(options, :client_options, [])
 
     client = OAuth2.Client.get_token!(client(client_options), params, headers, options)
-
-    split_token(client.token)
+    client.token
+    # IO.inspect(client.token)
+    # split_token(client.token)
   end
 
   defp split_token(nil), do: {nil, nil}
+
   defp split_token(token) do
     {token, OAuth2.AccessToken.new(token.other_params["authed_user"])}
   end
-
 
   # Strategy Callbacks
 
