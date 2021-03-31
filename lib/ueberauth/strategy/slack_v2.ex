@@ -70,9 +70,9 @@ defmodule Ueberauth.Strategy.SlackV2 do
     }
 
     # TODO support bot token
-    {_bot_token, user_token} = apply(module, :get_token!, [params, options])
+    # {bot_token, user_token} = apply(module, :get_token!, [params, options])
 
-    case user_token do
+    case apply(module, :get_token!, [params, options]) do
       # TODO likely this is not needed now that we have two tokens
       # %{access_token: _, other_params: %{"authed_user" => %{"access_token" => access_token}}} ->
 
@@ -88,18 +88,16 @@ defmodule Ueberauth.Strategy.SlackV2 do
       #   |> store_token(token)
       #   |> fetch_identity(token)
 
-      %{access_token: nil} ->
+      {%{access_token: nil}, %{access_token: nil} = user_token} ->
         set_errors!(conn, [error(user_token.other_params["error"], user_token.other_params["error_description"])])
 
-      user_token ->
-        # TODO what perms are required for this to work
-        # TODO what should a bot token do?
-        conn
-        |> store_token(user_token)
-        |> fetch_auth(user_token)
-        |> fetch_identity(user_token)
-        |> fetch_user(user_token)
-        |> fetch_team(user_token)
+      {bot_token, %{access_token: nil}} ->
+        handle_token(conn, bot_token)
+        |> store_bot_token(bot_token)
+
+      {bot_token, user_token} ->
+        handle_token(conn, user_token)
+        |> store_bot_token(bot_token)
     end
   end
 
@@ -119,10 +117,23 @@ defmodule Ueberauth.Strategy.SlackV2 do
     set_errors!(conn, [error("missing_code", "No code received")])
   end
 
+  defp handle_token(conn, token) do
+    conn
+    |> store_token(token)
+    |> fetch_auth(token)
+    |> fetch_identity(token)
+    |> fetch_user(token)
+    |> fetch_team(token)
+  end
+
   # We store the token for use later when fetching the slack auth and user and constructing the auth struct.
   @doc false
   defp store_token(conn, token) do
     put_private(conn, :slack_token, token)
+  end
+
+  defp store_bot_token(conn, token) do
+    put_private(conn, :slack_bot_token, token)
   end
 
   # Remove the temporary storage in the conn for our data. Run after the auth struct has been built.
@@ -133,6 +144,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
     |> put_private(:slack_identity, nil)
     |> put_private(:slack_user, nil)
     |> put_private(:slack_token, nil)
+    |> put_private(:slack_bot_token, nil)
   end
 
   # The structure of the requests is such that it is difficult to provide cusomization for the uid field.
@@ -145,6 +157,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
   @doc false
   def credentials(conn) do
     token = conn.private.slack_token
+    bot_token = conn.private.slack_bot_token
     auth = conn.private[:slack_auth]
     identity = conn.private[:slack_identity]
     user = conn.private[:slack_user]
@@ -166,7 +179,8 @@ defmodule Ueberauth.Strategy.SlackV2 do
             team: get_in(auth, ["team"]) || get_in(identity, ["team", "name"]),
             team_id: get_in(auth, ["team_id"]) || get_in(identity, ["team", "id"]),
             team_domain: get_in(identity, ["team", "domain"]),
-            team_url: get_in(auth, ["url"])
+            team_url: get_in(auth, ["url"]),
+            bot_token: bot_token.access_token,
           },
           user_credentials(user)
         )
@@ -214,6 +228,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
         auth: conn.private[:slack_auth],
         identity: conn.private[:slack_identity],
         token: conn.private[:slack_token],
+        bot_token: conn.private[:slack_bot_token],
         user: conn.private[:slack_user],
         team: conn.private[:slack_team]
       }
