@@ -34,11 +34,12 @@
 },
 {
   "request": {
-    "url": "https://slack.com/api/auth.test?token=xoxp-1234"
+    "url": "https://slack.com/api/auth.test?"
   },
   "response": {
     "status_code": 200,
     "headers": {
+      "Authorization": "Bearer xoxp-1234",
       "Content-Type": "application/json"
     },
     "body": "{
@@ -53,11 +54,12 @@
 },
 {
   "request": {
-    "url": "https://slack.com/api/users.info?user=U01C8111111&token=xoxb-594092027284-1416997157441-OuEZHfnFfupvVAH2zKxkIjsR"
+    "url": "https://slack.com/api/users.info?user=U01C8111111"
   },
   "response": {
     "status_code": 200,
     "headers": {
+      "Authorization": "Bearer xoxb-594092027284-1416997157441-OuEZHfnFfupvVAH2zKxkIjsR",
       "Content-Type": "application/json"
     },
     "body": "{
