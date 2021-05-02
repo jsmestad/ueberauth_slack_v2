@@ -89,11 +89,16 @@ defmodule Ueberauth.Strategy.SlackV2 do
       #   |> fetch_identity(token)
 
       {%{access_token: nil}, %{access_token: nil} = user_token} ->
-        set_errors!(conn, [error(user_token.other_params["error"], user_token.other_params["error_description"])])
+        set_errors!(conn, [
+          error(user_token.other_params["error"], user_token.other_params["error_description"])
+        ])
 
       {bot_token, %{access_token: nil}} ->
         handle_token(conn, bot_token)
         |> store_bot_token(bot_token)
+
+      {%{access_token: nil}, user_token} ->
+        handle_token(conn, user_token)
 
       {bot_token, user_token} ->
         handle_token(conn, user_token)
@@ -157,7 +162,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
   @doc false
   def credentials(conn) do
     token = conn.private.slack_token
-    bot_token = conn.private.slack_bot_token
+    bot_token = Map.get(conn.private, :slack_bot_token, %{})
     auth = conn.private[:slack_auth]
     identity = conn.private[:slack_identity]
     user = conn.private[:slack_user]
@@ -180,7 +185,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
             team_id: get_in(auth, ["team_id"]) || get_in(identity, ["team", "id"]),
             team_domain: get_in(identity, ["team", "domain"]),
             team_url: get_in(auth, ["url"]),
-            bot_token: bot_token.access_token,
+            bot_token: Map.get(bot_token, :access_token)
           },
           user_credentials(user)
         )

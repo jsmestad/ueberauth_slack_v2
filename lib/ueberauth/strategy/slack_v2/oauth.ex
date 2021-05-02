@@ -38,8 +38,9 @@ defmodule Ueberauth.Strategy.SlackV2.OAuth do
     url =
       [token: token]
       |> client()
-      |> to_url(url, Map.put(params, "token", token.access_token))
+      |> to_url(url, params)
 
+    headers = [{"authorization", "Bearer #{token.access_token}"}] ++ headers
     OAuth2.Client.get(client(), url, headers, opts)
   end
 
@@ -64,10 +65,10 @@ defmodule Ueberauth.Strategy.SlackV2.OAuth do
   end
 
   defp split_token(nil), do: {nil, nil}
+
   defp split_token(token) do
     {token, OAuth2.AccessToken.new(token.other_params["authed_user"])}
   end
-
 
   # Strategy Callbacks
 

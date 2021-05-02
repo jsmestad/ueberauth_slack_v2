@@ -1,7 +1,7 @@
 defmodule UeberauthSlackV2.Mixfile do
   use Mix.Project
 
-  @version "1.0.1"
+  @version "1.1.0"
 
   def project do
     [
@@ -10,7 +10,7 @@ defmodule UeberauthSlackV2.Mixfile do
       name: "Ueberauth Slack V2",
       package: package(),
       elixir: "~> 1.7",
-      build_embedded: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       source_url: "https://github.com/jsmestad/ueberauth_slack_v2",
       homepage_url: "https://github.com/jsmestad/ueberauth_slack_v2",
