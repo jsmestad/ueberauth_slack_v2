@@ -4,18 +4,18 @@ on: push
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
     strategy:
       matrix:
         otp: [23.1, 22.3, 21.3]
-        elixir: [1.10.4, 1.11.1]
+        elixir: [1.10.4, 1.11.4]
     steps:
       - name: Checkout codebase
         uses: actions/checkout@v2
 
       - name: Setup Elixir
-        uses: actions/setup-elixir@v1
+        uses: erlef/setup-beam@v1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
