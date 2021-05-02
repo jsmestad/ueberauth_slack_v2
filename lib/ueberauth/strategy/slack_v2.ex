@@ -69,25 +69,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
       ]
     }
 
-    # TODO support bot token
-    # {bot_token, user_token} = apply(module, :get_token!, [params, options])
-
     case apply(module, :get_token!, [params, options]) do
-      # TODO likely this is not needed now that we have two tokens
-      # %{access_token: _, other_params: %{"authed_user" => %{"access_token" => access_token}}} ->
-
-      #   token =
-      #     token
-      #     |> put_in([Access.key(:other_params), "scope"], token.other_params["authed_user"]["scope"])
-      #     |> Map.put(:access_token, access_token)
-      #     |> Map.put(:token_type, token.other_params["authed_user"]["token_type"])
-      #     |> Map.put(:scope, token.other_params["authed_user"]["scope"])
-      #     |> Map.put(:id, token.other_params["authed_user"]["id"])
-
-      #   conn
-      #   |> store_token(token)
-      #   |> fetch_identity(token)
-
       {%{access_token: nil}, %{access_token: nil} = user_token} ->
         set_errors!(conn, [
           error(user_token.other_params["error"], user_token.other_params["error_description"])
@@ -97,24 +79,11 @@ defmodule Ueberauth.Strategy.SlackV2 do
         handle_token(conn, bot_token)
         |> store_bot_token(bot_token)
 
-      {%{access_token: nil}, user_token} ->
-        handle_token(conn, user_token)
-
       {bot_token, user_token} ->
         handle_token(conn, user_token)
         |> store_bot_token(bot_token)
     end
   end
-
-  # defp translate_v2_payload(token) do
-  #   %{"authed_user" => user} = token
-  #   token
-  #   |> Map.replace(:access_token, user["access_token"])
-  #   |> Map.replace(:id, user["id"])
-  #   |> Map.replace(:scope, user["scope"])
-  #   |> Map.replace(:token_type, user["token_type"])
-  #   |> Map.delete(:bot_user_id)
-  # end
 
   # If we don't match code, then we have an issue
   @doc false
@@ -162,7 +131,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
   @doc false
   def credentials(conn) do
     token = conn.private.slack_token
-    bot_token = Map.get(conn.private, :slack_bot_token, %{})
+    bot_token = conn.private.slack_bot_token
     auth = conn.private[:slack_auth]
     identity = conn.private[:slack_identity]
     user = conn.private[:slack_user]
@@ -185,7 +154,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
             team_id: get_in(auth, ["team_id"]) || get_in(identity, ["team", "id"]),
             team_domain: get_in(identity, ["team", "domain"]),
             team_url: get_in(auth, ["url"]),
-            bot_token: Map.get(bot_token, :access_token)
+            bot_token: bot_token.access_token
           },
           user_credentials(user)
         )
