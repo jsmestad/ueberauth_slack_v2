@@ -21,7 +21,8 @@ defmodule Ueberauth.Strategy.SlackV2 do
     uid_field: :email,
     default_scope: "users:read",
     default_user_scope: "",
-    oauth2_module: Ueberauth.Strategy.SlackV2.OAuth
+    oauth2_module: Ueberauth.Strategy.SlackV2.OAuth,
+    ignores_csrf_attack: true
 
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Credentials

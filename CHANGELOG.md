@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2021-09-29
+
+### Added
+
+- Support CSRF requirement for Ueberauth >= 0.7.0
+
 ## [1.1.1] - 2021-05-02
 
 ### Fixed
