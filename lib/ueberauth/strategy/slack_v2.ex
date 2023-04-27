@@ -21,8 +21,7 @@ defmodule Ueberauth.Strategy.SlackV2 do
     uid_field: :email,
     default_scope: "users:read",
     default_user_scope: "",
-    oauth2_module: Ueberauth.Strategy.SlackV2.OAuth,
-    ignores_csrf_attack: true
+    oauth2_module: Ueberauth.Strategy.SlackV2.OAuth
 
   alias Ueberauth.Auth.Info
   alias Ueberauth.Auth.Credentials
@@ -36,7 +35,13 @@ defmodule Ueberauth.Strategy.SlackV2 do
     opts = [scope: scopes, user_scope: user_scopes]
 
     opts =
-      if conn.params["state"], do: Keyword.put(opts, :state, conn.params["state"]), else: opts
+      if conn.params["state"] do
+        opts
+        |> Keyword.put(:state, conn.params["state"])
+      else
+        opts
+        |> with_state_param(conn)
+      end
 
     team = option(conn, :team)
     opts = if team, do: Keyword.put(opts, :team, team), else: opts
