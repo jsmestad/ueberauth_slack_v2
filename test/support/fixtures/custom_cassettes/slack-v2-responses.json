@@ -1,7 +1,7 @@
 [
   {
     "request": {
-      "url": "https://slack.com/api/oauth.v2.access"
+      "url": "https://slack.com/api/oauth.v2.access?"
     },
     "response": {
       "status_code": 200,
@@ -18,51 +18,51 @@
         \"team\": {
           \"name\": \"Slack Softball Team\",
           \"id\": \"T9TK3CUKW\"
-        },
+    },
         \"enterprise\": {
           \"name\": \"slack-sports\",
           \"id\": \"E12345678\"
-        },
+  },
         \"authed_user\": {
           \"id\": \"U1234\",
           \"scope\": \"chat:write\",
           \"access_token\": \"xoxp-1234\",
           \"token_type\": \"user\"
-        }
-    }"
-  }
+}
+}"
+}
 },
 {
-  "request": {
-    "url": "https://slack.com/api/auth.test?"
-  },
-  "response": {
-    "status_code": 200,
-    "headers": {
-      "Authorization": "Bearer xoxp-1234",
-      "Content-Type": "application/json"
-    },
-    "body": "{
+"request": {
+"url": "https://slack.com/api/auth.test?"
+},
+"response": {
+"status_code": 200,
+"headers": {
+"Authorization": "Bearer xoxp-1234",
+"Content-Type": "application/json"
+},
+"body": "{
       \"ok\": true,
       \"url\": \"https://subarachnoid.slack.com/\",
       \"team\": \"Subarachnoid Workspace\",
       \"user\": \"grace\",
       \"team_id\": \"T12345678\",
       \"user_id\": \"W12345678\"
-    }"
-  }
+}"
+}
 },
 {
-  "request": {
-    "url": "https://slack.com/api/users.info?user=U01C8111111"
-  },
-  "response": {
-    "status_code": 200,
-    "headers": {
-      "Authorization": "Bearer xoxb-594092027284-1416997157441-OuEZHfnFfupvVAH2zKxkIjsR",
-      "Content-Type": "application/json"
-    },
-    "body": "{
+"request": {
+"url": "https://slack.com/api/users.info?user=U01C8111111"
+},
+"response": {
+"status_code": 200,
+"headers": {
+"Authorization": "Bearer xoxb-594092027284-1416997157441-OuEZHfnFfupvVAH2zKxkIjsR",
+"Content-Type": "application/json"
+},
+"body": "{
       \"ok\": true,
       \"user\": {
         \"id\": \"W012A3CDE\",
@@ -91,7 +91,7 @@
           \"image_192\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
           \"image_512\": \"https://.../avatar/e3b51ca72dee4ef87916ae2b9240df50.jpg\",
           \"team\": \"T012AB3C4\"
-        },
+},
         \"is_admin\": true,
         \"is_owner\": false,
         \"is_primary_owner\": false,
@@ -101,8 +101,8 @@
         \"updated\": 1502138686,
         \"is_app_user\": false,
         \"has_2fa\": false
-      }
-    }"
-  }
+}
+}"
+}
 }
 ]
