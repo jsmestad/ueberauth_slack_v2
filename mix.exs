@@ -36,7 +36,8 @@ defmodule UeberauthSlackV2.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test]},
       {:earmark, "~> 1.3", only: :dev},
       {:ex_doc, "~> 0.21", only: :dev},
-      {:exvcr, "~> 0.11", only: :test}
+      {:exvcr, "~> 0.11", only: :test},
+      {:hackney, "~> 1.18", only: [:dev, :test]}
     ]
   end
 

@@ -11,6 +11,8 @@ config :ueberauth, Ueberauth,
        ]}
   ]
 
+config :oauth2, adapter: Tesla.Adapter.Hackney
+
 config :ueberauth, Ueberauth.Strategy.SlackV2.OAuth,
   client_id: "clientidsomethingrandom",
   client_secret: "clientsecret-somethingsecret"
