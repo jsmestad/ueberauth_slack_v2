@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2024-05-14
+
+### Changed
+
+- Bump minimum requirement for Ueberauth >= 0.10
+
+### Fixed
+
+- Remove deprecated usage of `Mix.Config`
+
 ## [2.0.0] - 2021-09-29
 
 ### Added
