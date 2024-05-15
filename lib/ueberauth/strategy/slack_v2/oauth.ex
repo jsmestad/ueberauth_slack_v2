@@ -93,10 +93,10 @@ defmodule Ueberauth.Strategy.SlackV2.OAuth do
       |> endpoint(client)
 
     final_endpoint =
-      if params do
-        client_endpoint <> "?" <> URI.encode_query(params)
-      else
+      if Enum.empty?(params) do
         client_endpoint
+      else
+        client_endpoint <> "?" <> URI.encode_query(params)
       end
 
     final_endpoint

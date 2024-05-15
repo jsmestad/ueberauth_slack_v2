@@ -34,7 +34,7 @@
 },
 {
 "request": {
-"url": "https://slack.com/api/auth.test?&"
+"url": "https://slack.com/api/auth.test?"
 },
 "response": {
 "status_code": 200,
