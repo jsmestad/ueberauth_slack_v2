@@ -1,4 +1,4 @@
-defmodule UeberauthSlackV2.Mixfile do
+defmodule UeberauthSlackV2.MixProject do
   use Mix.Project
 
   @version "2.0.0"
@@ -9,7 +9,7 @@ defmodule UeberauthSlackV2.Mixfile do
       version: @version,
       name: "Ueberauth Slack V2",
       package: package(),
-      elixir: "~> 1.7",
+      elixir: "~> 1.8",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       source_url: "https://github.com/jsmestad/ueberauth_slack_v2",
@@ -21,13 +21,15 @@ defmodule UeberauthSlackV2.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :ueberauth, :oauth2]]
+    [
+      extra_applications: [:logger, :ueberauth, :oauth2]
+    ]
   end
 
   defp deps do
     [
       {:oauth2, "~> 1.0 or ~> 2.0"},
-      {:ueberauth, "~> 0.7"},
+      {:ueberauth, "~> 0.10"},
       {:jason, "~> 1.0"},
 
       # dev/test dependencies
